@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="apache-commons-lang">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/apache-commons-lang.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jfoenix-8.0.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.apache.commons.io.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
