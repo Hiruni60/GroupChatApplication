@@ -1,16 +1,22 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -18,6 +24,7 @@ import org.apache.commons.lang.ArrayUtils;
 import util.Client;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
@@ -53,6 +60,7 @@ public class ClientFormController {
     // data handling
     byte[] payload;
     byte[] header;
+
 
     int mouseCounter = 0;
 
@@ -90,16 +98,24 @@ public class ClientFormController {
 
         // TODO : bypass all the empty spaces after and before
         if (!txtFld.getText().equals("")){
-            String msg = txtFldUserName + " :\n" + txtFld.getText();
+            String msg = txtFldUserName + " : " + txtFld.getText();
             payload = msg.getBytes(StandardCharsets.UTF_16);
             int len = payload.length;
 
             header = ByteBuffer.allocate(4).putInt(len).array();
             byte[] frame = addAll(header,payload);
 
+
             client.getOut().write(0);
             client.getOut().write(frame);
             client.getOut().flush();
+
+           /* Label msgLabel = new Label(txtFld.getText());
+            msgLabel.setStyle("-fx-background-color: #778ca3;-fx-text-fill: #a5b1c2");
+            HBox box = new HBox();
+            box.getChildren().add(msgLabel);
+            box.setAlignment(Pos.BASELINE_RIGHT);
+            msgBox.getChildren().add(box);*/
 
             return true;
         } else return false;
@@ -112,7 +128,7 @@ public class ClientFormController {
     }
 
 
-    public void uploadPhotoOnMouseClicked(MouseEvent event) throws IOException {
+    public void uploadPhotoOnMouseClicked(MouseEvent event) throws IOException, InterruptedException {
         File selectedFile = fileChooser.showOpenDialog(stage);
 
         if (selectedFile!=null) {
@@ -124,15 +140,51 @@ public class ClientFormController {
             ByteArrayOutputStream bout = new ByteArrayOutputStream();
             ImageIO.write(finalImage, res[1], bout);
 
+            byte[] temp_payload = txtFldUserName.getBytes(StandardCharsets.UTF_16);
+            byte[] temp_header = ByteBuffer.allocate(4).putInt(temp_payload.length).array();
+
             payload = bout.toByteArray();
             header = ByteBuffer.allocate(4).putInt(payload.length).array();
 
             byte[] frame = addAll(header,payload);
 
+            String msg = txtFldUserName + " : ";
+            byte[] payload2 = msg.getBytes(StandardCharsets.UTF_16);
+            int len2 = payload.length;
+
+            byte[] header2 = ByteBuffer.allocate(4).putInt(len2).array();
+            byte[] frame2 = addAll(header2,payload2);
+
+            client.getOut().write(0);
+            client.getOut().write(frame2);
+            client.getOut().flush();
+
+            Thread.sleep(2000);
+
             client.getOut().write(-1);
             client.getOut().write(frame);
-
             client.getOut().flush();
+
+           /* Image image = SwingFXUtils.toFXImage(finalImage,null);*/
+
+           /* HBox box = new HBox();
+            GridPane pane  = new GridPane();
+            pane.getStyleClass().add("custom-image2");
+            pane.setStyle("-fx-background-color: #5181b8;");
+
+            ImageView view = new ImageView(image);
+            view.setFitHeight(250);
+            view.setFitWidth(250);
+            view.setSmooth(true);
+            view.setPreserveRatio(true);
+
+            pane.getChildren().add(view);
+
+            box.setAlignment(Pos.BASELINE_RIGHT);
+            box.getChildren().add(pane);
+
+            msgBox.getChildren().add(box);*/
+
 
         }
     }
