@@ -110,7 +110,7 @@ public class ClientFormController {
             client.getOut().write(frame);
             client.getOut().flush();
 
-           /* Label msgLabel = new Label(txtFld.getText());
+            /*Label msgLabel = new Label(txtFld.getText());
             msgLabel.setStyle("-fx-background-color: #778ca3;-fx-text-fill: #a5b1c2");
             HBox box = new HBox();
             box.getChildren().add(msgLabel);
@@ -165,9 +165,9 @@ public class ClientFormController {
             client.getOut().write(frame);
             client.getOut().flush();
 
-           /* Image image = SwingFXUtils.toFXImage(finalImage,null);*/
+            /*Image image = SwingFXUtils.toFXImage(finalImage,null);
 
-           /* HBox box = new HBox();
+            HBox box = new HBox();
             GridPane pane  = new GridPane();
             pane.getStyleClass().add("custom-image2");
             pane.setStyle("-fx-background-color: #5181b8;");
