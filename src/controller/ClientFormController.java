@@ -1,34 +1,23 @@
 package controller;
 
 import javafx.application.Platform;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.commons.lang.ArrayUtils;
 import util.Client;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
-import Thread.ListenerThread;
+import Thread.Thread2;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Timer;
@@ -51,7 +40,7 @@ public class ClientFormController {
     // TODO : hv to encapsulate client
     Client client;
     String txtFldUserName;
-    ListenerThread listener;
+    Thread2 listener;
     Stage stage;
 
     // file handling
@@ -87,7 +76,7 @@ public class ClientFormController {
 
         // TODO : open up a listener for server
         try {
-            listener = new ListenerThread(new DataInputStream(client.getInputStream()),msgBox,timer);
+            listener = new Thread2(new DataInputStream(client.getInputStream()),msgBox,timer);
             timer.schedule(listener,0,1000);
         } catch (IOException e) {
             e.printStackTrace();
@@ -202,4 +191,12 @@ public class ClientFormController {
         }
     }
 
+    public void openEmojiOnMouseClicked(MouseEvent event) {
+        txtFld.setText(txtFld.getText() + "\uD83D\uDE18");
+        txtFld.setText(txtFld.getText() + "\uD83D\uDE0D");
+        txtFld.setText(txtFld.getText() + "\uD83D\uDE02");
+        txtFld.setText(txtFld.getText() + "\uD83D\uDE12");
+        txtFld.setText(txtFld.getText() + "\uD83D\uDE48");
+        txtFld.setText(txtFld.getText() + "\uD83D\uDE21");
+    }
 }

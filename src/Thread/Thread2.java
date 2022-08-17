@@ -17,12 +17,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ListenerThread extends TimerTask {
+public class Thread2 extends TimerTask {
     DataInputStream in;
     VBox msgArea;
     Timer timer;
 
-    public ListenerThread(DataInputStream inputStream,VBox msgArea,Timer timer){
+    public Thread2(DataInputStream inputStream, VBox msgArea, Timer timer){
         in = inputStream;
         this.msgArea = msgArea;
         this.timer = timer;
@@ -90,7 +90,7 @@ public class ListenerThread extends TimerTask {
 
     private void resume() {
         Timer timer = new Timer();
-        timer.schedule(new ListenerThread(in,msgArea,timer),0,1000);
+        timer.schedule(new Thread2(in,msgArea,timer),0,1000);
     }
 
     public void stop() {

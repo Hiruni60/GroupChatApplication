@@ -3,21 +3,19 @@ package Thread;
 import controller.ServerFormController;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Flusher extends TimerTask {
+public class Thread1 extends TimerTask {
     // TODO : listen for all incoming data and flush the traffic to each of the clients
 
     DataInputStream inputStream;
     Timer timer;
 
-    public Flusher(DataInputStream inputStream, Timer timer) {
+    public Thread1(DataInputStream inputStream, Timer timer) {
         this.inputStream = inputStream;
         this.timer = timer;
     }
@@ -74,6 +72,6 @@ public class Flusher extends TimerTask {
 
     private void resume() {
         timer = new Timer();
-        timer.schedule(new Flusher(new DataInputStream(inputStream),timer),0,2000);
+        timer.schedule(new Thread1(new DataInputStream(inputStream),timer),0,2000);
     }
 }

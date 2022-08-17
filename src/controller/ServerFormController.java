@@ -13,7 +13,7 @@ import util.Server;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import Thread.Flusher;
+import Thread.Thread1;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Timer;
@@ -30,7 +30,7 @@ public class ServerFormController {
     public static HashMap<Integer, DataOutputStream> clients = new HashMap<>();
 
      public void initialize() throws IOException {
-        /// open up the server
+        //open up the server
          server = new Server(8080,5);
 
          mainThread = new Thread(() -> {
@@ -39,7 +39,7 @@ public class ServerFormController {
                  try {
                      localSocket = server.accept();
                      Timer timer = new Timer();
-                     timer.schedule(new Flusher(new DataInputStream(localSocket.getInputStream()),timer),0,2000);
+                     timer.schedule(new Thread1(new DataInputStream(localSocket.getInputStream()),timer),0,2000);
                      clients.put(localSocket.getPort(), new DataOutputStream(localSocket.getOutputStream()));
                  } catch (IOException e) {
                      System.out.println(e.getMessage());
@@ -52,7 +52,7 @@ public class ServerFormController {
          Platform.runLater(() -> {
              stage.setOnCloseRequest(e -> {
                  mainThread.interrupt();
-                 // TODO : have to check why jvm is not exiting from above code block
+
                  System.exit(0);
              });
          });
